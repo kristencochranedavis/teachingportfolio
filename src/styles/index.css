@@ -1,0 +1,907 @@
+@import "tailwindcss";
+@import "./sections.css";
+@import "./motion.css";
+@import "./transitions.css";
+@import "./print.css";
+
+/*
+ * The Exhibition: tokens and base.
+ * Walls come from src/lib/walls.ts. The entrance wall is set here so first
+ * paint is right before JavaScript runs; the wall driver takes over from there.
+ */
+
+@theme {
+  --font-display: "Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
+  --font-read: "Literata Variable", Literata, Georgia, serif;
+  --font-label: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
+}
+
+:root {
+  --wall: #afc6c0;
+  --ink: #14221f;
+  --muted: #2e423c;
+  --accent: #5e400e;
+
+  --nav-h: 3.5rem;
+  --gutter: clamp(1rem, 4.4vw, 4.5rem);
+  --pad-y: clamp(2.25rem, 5vh, 4.25rem);
+  --max: 78rem;
+
+  --ease-gallery: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sweep: cubic-bezier(0.7, 0, 0.25, 1);
+
+  /* The one gilt frame (the entrance), from the frame in the museum photo. */
+  --gilt-hi: #e2b967;
+  --gilt: #c9963f;
+  --gilt-lo: #8a5c1c;
+  --mat: #f7f1e6;
+
+  color-scheme: light;
+  scroll-padding-top: var(--nav-h);
+}
+
+html {
+  background: var(--wall);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--wall);
+  color: var(--ink);
+  font-family: var(--font-read);
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+@media (min-width: 64rem) {
+  body {
+    font-size: 1.125rem;
+  }
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--wall);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Lights, 3D walls and the sweep edge may reach past the page edge; never let them widen it. */
+main {
+  display: block;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+p {
+  margin: 0;
+}
+
+/* Focus: always visible, in the wall's own ink, with the wall colour as a halo. */
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--wall);
+}
+
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 0.75rem;
+  z-index: 200;
+  padding: 0.7rem 1rem;
+  background: var(--ink);
+  color: var(--wall);
+  font-family: var(--font-label);
+  font-weight: 650;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* ---- type ------------------------------------------------------------------- */
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 7.4vw, 7rem);
+  line-height: 0.94;
+  letter-spacing: -0.012em;
+  margin: 0;
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.375rem, 5.2vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.5vw, 2.125rem);
+  line-height: 1.14;
+  margin: 0;
+}
+
+.t-fr {
+  font-family: var(--font-read);
+  font-style: italic;
+  font-weight: 380;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.4;
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+}
+
+.t-label {
+  font-family: var(--font-label);
+  font-weight: 650;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+  margin: 0;
+}
+
+.t-credit {
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.t-lede {
+  font-size: clamp(1.1875rem, 1.7vw, 1.375rem);
+  line-height: 1.55;
+}
+
+.measure {
+  max-width: 64ch;
+}
+
+/* Split headings: the mask reaches a little further so Caslon's tails aren't clipped. */
+.split-line-mask {
+  padding-block: 0.1em;
+  margin-block: -0.1em;
+}
+
+/* ---- layout ----------------------------------------------------------------- */
+
+.shell {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  box-sizing: border-box;
+}
+
+.scene {
+  padding-block: var(--pad-y);
+  position: relative;
+}
+
+.section-head {
+  margin-bottom: clamp(2rem, 5vh, 3.5rem);
+}
+
+/* A link whose underline draws in from the left (pointer devices, motion on). */
+.draw-link {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+}
+
+@media (hover: hover) {
+  html[data-motion="on"] .draw-link {
+    background-size: 0% 1px;
+    transition: background-size 420ms var(--ease-gallery);
+  }
+  html[data-motion="on"] .draw-link:hover,
+  html[data-motion="on"] .draw-link:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* Text buttons: plain words, a ruled underline, 44px tall. No pills. */
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding: 0 0.15rem;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-family: var(--font-label);
+  font-weight: 650;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.text-button > span:first-child {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}
+
+.text-button svg {
+  flex: none;
+}
+
+/* A plain ruled action, for the few real calls to action. */
+.rule-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  min-height: 3rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-label);
+  font-weight: 650;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+.rule-button:hover {
+  background: var(--ink);
+  color: var(--wall);
+}
+
+/* ---- nav -------------------------------------------------------------------- */
+
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  height: var(--nav-h);
+  background: color-mix(in oklab, var(--wall) 94%, transparent);
+  color: var(--ink);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 16%, transparent);
+}
+
+.site-nav__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-nav__home {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.site-nav__where {
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.site-nav__where-swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: none;
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 40%, transparent);
+  transition: background-color 400ms ease;
+}
+
+.site-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  margin-left: auto;
+  flex: none;
+}
+
+/* Phones: the motion and floor-plan buttons drop their words for marks (44px targets),
+   so the name, the language switch and both buttons fit on one line at 390px. */
+.nav-short {
+  display: none;
+}
+
+.nav-short-label {
+  display: none;
+}
+
+@media (max-width: 47.999rem) {
+  .site-nav__where {
+    display: none;
+  }
+  .site-nav__inner {
+    gap: 0.5rem;
+  }
+  .site-nav__home {
+    font-size: 0.9375rem;
+  }
+  .site-nav__actions {
+    gap: 0.35rem;
+  }
+  .site-nav .nav-long {
+    display: none;
+  }
+  .site-nav .nav-short {
+    display: inline;
+  }
+  .site-nav .nav-short-label {
+    display: block;
+  }
+  .site-nav .motion-toggle,
+  .site-nav .plan-button {
+    min-width: 2.75rem;
+    justify-content: center;
+  }
+}
+
+/* EN | FR: the same plain label style as the Motion toggle; the chosen one is underlined. */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-label);
+  font-weight: 650;
+  font-size: 0.9375rem;
+}
+
+.lang-toggle__opt {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0 0.25rem;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.lang-toggle__opt[aria-pressed="true"] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}
+
+.lang-toggle__opt:hover {
+  color: var(--ink);
+}
+
+.lang-toggle__bar {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* In French, a block still in English says so. */
+.fallback-note {
+  display: inline-block;
+  margin: 0.6rem 0 0;
+  padding-top: 0.25rem;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Switching language: a quick cross-fade of the text (lang.ts); instant with motion off. */
+main,
+.site-nav__inner {
+  transition: opacity 130ms ease;
+}
+
+html.lang-out main,
+html.lang-out .site-nav__inner {
+  opacity: 0;
+  transition-duration: 120ms;
+}
+
+.motion-toggle .motion-state {
+  display: inline-grid;
+}
+
+.motion-toggle .motion-state > span {
+  grid-area: 1 / 1;
+}
+
+html[data-motion="on"] .motion-toggle .motion-off,
+html[data-motion="off"] .motion-toggle .motion-on {
+  visibility: hidden;
+}
+
+.motion-icon .motion-on,
+.motion-icon .motion-off {
+  visibility: visible;
+}
+
+html[data-motion="on"] .motion-icon .motion-off,
+html[data-motion="off"] .motion-icon .motion-on {
+  display: none;
+}
+
+/* ---- the floor plan ---------------------------------------------------------- */
+
+.plan {
+  --plan-wall: var(--ink);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+  padding: 3px;
+  background: var(--plan-wall);
+  list-style: none;
+  margin: 0;
+}
+
+.plan__cell {
+  grid-column: span 1;
+}
+
+.plan__cell--wide {
+  grid-column: span 2;
+}
+
+.plan__cell--full {
+  grid-column: 1 / -1;
+}
+
+.plan__room {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.15rem;
+  min-height: 3.6rem;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.45rem 0.55rem 0.5rem;
+  background: var(--room-bg);
+  color: var(--room-ink);
+  text-decoration: none;
+  transition: filter 200ms ease;
+}
+
+.plan__room:hover {
+  filter: brightness(1.06) saturate(1.05);
+}
+
+.plan__room:focus-visible {
+  outline: 3px solid var(--room-ink);
+  outline-offset: -6px;
+  box-shadow: none;
+}
+
+.plan__n {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  line-height: 1;
+}
+
+.plan__name {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.plan__marks {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.plan__here {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--room-ink);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--room-ink) 25%, transparent);
+}
+
+html[data-motion="on"] .plan__here {
+  animation: here-pulse 2.4s var(--ease-gallery) infinite;
+}
+
+@keyframes here-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--room-ink) 25%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in oklab, var(--room-ink) 0%, transparent);
+  }
+}
+
+.plan__visited {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: var(--room-ink);
+}
+
+.plan-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin-top: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.plan-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.plan-legend .plan__here {
+  --room-ink: var(--ink);
+  animation: none !important;
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+/* The floor plan dialog. */
+.plan-dialog {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+  color: var(--ink);
+  inset: var(--nav-h) 0 auto auto;
+  width: min(30rem, 100vw);
+}
+
+.plan-dialog::backdrop {
+  background: color-mix(in oklab, var(--ink) 30%, transparent);
+}
+
+.plan-dialog__panel {
+  background: var(--wall);
+  border: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
+  border-top: 0;
+  padding: 1.25rem var(--gutter) 1.5rem;
+  max-height: calc(100svh - var(--nav-h));
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+@media (min-width: 48rem) {
+  .plan-dialog__panel {
+    padding-inline: 1.5rem;
+  }
+}
+
+.plan-dialog__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+html[data-motion="on"] .plan-dialog[open] .plan-dialog__panel {
+  animation: plan-drop 420ms var(--ease-gallery);
+}
+
+html[data-motion="on"] .plan-dialog[open]::backdrop {
+  animation: fade-in 300ms ease;
+}
+
+@keyframes plan-drop {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-8px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---- photo frames ------------------------------------------------------------ */
+
+.frame {
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.frame-mat {
+  position: absolute;
+  inset: 0;
+  background: var(--mat);
+  padding: clamp(0.65rem, 1.6vw, 1.15rem);
+  box-sizing: border-box;
+}
+
+.frame-window {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--mat) 80%, #000);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.18);
+}
+
+.frame-drift {
+  position: absolute;
+  inset: 0;
+  transform-origin: var(--focal, 50% 50%);
+}
+
+html[data-motion="on"] .frame-drift {
+  inset: -3% 0;
+}
+
+.frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focal, 50% 50%);
+}
+
+.frame-edge {
+  position: absolute;
+  background: color-mix(in oklab, var(--ink) 70%, transparent);
+  pointer-events: none;
+}
+
+.frame-edge--t,
+.frame-edge--b {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.frame-edge--l,
+.frame-edge--r {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.frame-edge--t {
+  top: 0;
+  transform-origin: left center;
+}
+.frame-edge--r {
+  right: 0;
+  transform-origin: center top;
+}
+.frame-edge--b {
+  bottom: 0;
+  transform-origin: right center;
+}
+.frame-edge--l {
+  left: 0;
+  transform-origin: center bottom;
+}
+
+.frame-caption {
+  margin-top: 0.75rem;
+}
+
+/* The entrance's gilt frame: the only literal gilt frame on the site. */
+.gilt {
+  position: relative;
+  padding: clamp(0.85rem, 1.9vw, 1.35rem);
+  background:
+    linear-gradient(135deg, var(--gilt-hi), var(--gilt) 30%, var(--gilt-lo) 55%, var(--gilt) 75%, var(--gilt-hi));
+  box-shadow:
+    inset 0 0 0 2px color-mix(in oklab, var(--gilt-hi) 80%, white),
+    inset 0 0 0 5px var(--gilt-lo),
+    inset 0 0 0 7px var(--gilt-hi),
+    0 1.5rem 2.5rem -1.25rem rgb(20 30 28 / 0.45),
+    0 0.25rem 0.5rem rgb(20 30 28 / 0.18);
+  box-sizing: border-box;
+}
+
+.gilt__window {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 2px var(--gilt-lo),
+    0 0 0 4px color-mix(in oklab, var(--gilt-hi) 70%, white);
+  aspect-ratio: var(--ratio);
+  background: #8ea9a3;
+}
+
+.gilt__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focal, 50% 50%);
+}
+
+.gilt__curtain {
+  position: absolute;
+  inset: 0;
+  background: var(--wall);
+  transform-origin: center top;
+  transform: scaleY(0);
+  pointer-events: none;
+}
+
+/* ---- the sweep (route transitions) ------------------------------------------- */
+
+.sweep {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: var(--sweep, var(--wall));
+  transform: translate3d(-100%, 0, 0);
+  will-change: transform;
+}
+
+.sweep:not([data-phase]) {
+  visibility: hidden;
+}
+
+.sweep-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14vw;
+  pointer-events: none;
+}
+
+.sweep-edge--lead {
+  left: 100%;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--sweep) 100%, transparent), color-mix(in oklab, var(--sweep) 0%, transparent));
+}
+
+.sweep-edge--trail {
+  right: 100%;
+  background: linear-gradient(270deg, color-mix(in oklab, var(--sweep) 100%, transparent), color-mix(in oklab, var(--sweep) 0%, transparent));
+}
+
+/* A fine line of gallery light rides the sweep's leading edge. */
+.sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  background: rgb(255 246 228 / 0.55);
+  box-shadow: 0 0 24px 6px rgb(255 246 228 / 0.25);
+}
+
+.sweep[data-phase="reveal"]::after {
+  right: auto;
+  left: 0;
+}
+
+/* ---- prose (markdown bodies) ------------------------------------------------- */
+
+.prose-wall {
+  max-width: 68ch;
+}
+
+.prose-wall > * + * {
+  margin-top: 1em;
+}
+
+.prose-wall .md-h {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-top: 1.8em;
+}
+
+.prose-wall .md-h2 {
+  font-size: clamp(1.75rem, 3vw, 2.375rem);
+}
+.prose-wall .md-h3 {
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+}
+.prose-wall .md-h4,
+.prose-wall .md-h5 {
+  font-size: 1.375rem;
+}
+
+.prose-wall > .md-h:first-child {
+  margin-top: 0;
+}
+
+.prose-wall ul,
+.prose-wall ol {
+  padding-left: 1.25em;
+}
+
+.prose-wall li + li {
+  margin-top: 0.45em;
+}
+
+.prose-wall li::marker {
+  color: var(--muted);
+}
+
+.prose-wall a {
+  overflow-wrap: anywhere;
+}
+
+.prose-wall strong {
+  font-weight: 650;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}

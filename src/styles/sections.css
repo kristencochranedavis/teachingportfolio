@@ -1,0 +1,1348 @@
+/* ==== Home ===================================================================== */
+
+/* ---- Entrance ---------------------------------------------------------------- */
+
+.entrance {
+  padding-top: calc(var(--nav-h) + clamp(1.25rem, 4vh, 3rem));
+  padding-bottom: clamp(2.5rem, 7vh, 5rem);
+}
+
+.entrance__grid {
+  display: grid;
+  gap: clamp(1.75rem, 3.5vw, 4rem);
+  align-items: center;
+}
+
+.entrance__name {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.26em;
+}
+
+.intro-line {
+  display: block;
+}
+
+.entrance__meta {
+  margin-top: clamp(1rem, 2.6vh, 1.75rem);
+}
+
+.entrance__role {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.3vw, 2rem);
+  line-height: 1.15;
+}
+
+.entrance__meta .t-fr {
+  margin-top: 0.2rem;
+}
+
+.entrance__course {
+  margin-top: 0.85rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.entrance__plan {
+  margin-top: clamp(1.25rem, 3.4vh, 2.25rem);
+  max-width: 30rem;
+}
+
+.entrance__plan-title {
+  margin-bottom: 0.55rem;
+}
+
+.entrance__photo .gilt {
+  max-width: 32rem;
+  margin-inline: auto;
+}
+
+@media (max-width: 47.999rem) {
+  .entrance__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .entrance__text {
+    display: contents;
+  }
+  .entrance__name {
+    order: 1;
+  }
+  .entrance__meta {
+    order: 2;
+    margin-top: 0.25rem;
+  }
+  .entrance__photo {
+    order: 3;
+    margin-top: 0.5rem;
+  }
+  .entrance__photo .gilt {
+    max-width: min(20rem, 82vw);
+    margin-inline: 0;
+  }
+  .entrance__plan {
+    order: 4;
+  }
+}
+
+@media (min-width: 48rem) {
+  /* Content-sized (no forced full height), so a tall window shows "Who is Kristen"
+     below the entrance instead of an empty band. */
+  .entrance {
+    padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
+  }
+  .entrance__grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+  .entrance__photo .gilt {
+    /* Sized to the text beside it: the window never runs taller than the viewport allows. */
+    width: min(100%, calc((100svh - var(--nav-h) - 7rem) * 0.8 + 2.7rem));
+    margin-inline: 0 auto;
+  }
+}
+
+/* ---- Who is Kristen ----------------------------------------------------------
+   Heading beside the lede, then the photo beside the rest of the bio: the photo's
+   height comes from the paragraphs next to it, clamped so it never towers. */
+
+.who__grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.who__photo {
+  aspect-ratio: 4 / 5;
+  width: min(100%, 24rem);
+  margin-block: 0.5rem;
+}
+
+.who__body > * + * {
+  margin-top: 1.05em;
+}
+
+.runin {
+  font-family: var(--font-read);
+  font-weight: 650;
+}
+
+.who__quote {
+  margin: 0.5rem 0 0;
+  padding-top: clamp(1.5rem, 4vh, 2.5rem);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 22%, transparent);
+}
+
+.who__quote blockquote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  line-height: 1.12;
+  max-width: 28ch;
+  text-wrap: balance;
+}
+
+.who__quote figcaption {
+  margin-top: 0.9rem;
+}
+
+@media (min-width: 48rem) {
+  .who__grid {
+    grid-template-columns: minmax(15rem, 24rem) minmax(0, 1fr);
+    grid-template-areas:
+      "head lede"
+      "photo body"
+      "quote quote";
+    column-gap: clamp(2rem, 4.5vw, 4.5rem);
+    row-gap: clamp(1.75rem, 4vh, 2.75rem);
+  }
+  .who__head {
+    grid-area: head;
+  }
+  .who__lede {
+    grid-area: lede;
+    max-width: 40ch;
+    padding-top: 0.35rem;
+  }
+  .who__photo {
+    grid-area: photo;
+    width: 100%;
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 22rem;
+    max-height: 32rem;
+    margin: 0;
+  }
+  .who__body {
+    grid-area: body;
+    max-width: 62ch;
+    align-self: center;
+  }
+  .who__quote {
+    grid-area: quote;
+    display: grid;
+    grid-template-columns: minmax(15rem, 24rem) minmax(0, 1fr);
+    column-gap: clamp(2rem, 4.5vw, 4.5rem);
+    align-items: end;
+  }
+  .who__quote blockquote {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .who__quote figcaption {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: right;
+    margin: 0 0 0.5rem;
+  }
+}
+
+/* ---- Philosophy (the peak) ------------------------------------------------- */
+
+.philosophy__head {
+  text-align: center;
+}
+
+.philosophy__head .t-h2 {
+  font-size: clamp(2.5rem, 6vw, 5.25rem);
+}
+
+.facing {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+.facing__glow {
+  position: absolute;
+  inset: -10% 10%;
+  background: radial-gradient(ellipse 50% 55% at 50% 45%, rgb(255 246 228 / 0.16), transparent 70%);
+  pointer-events: none;
+}
+
+.facing__wall {
+  position: relative;
+  background: var(--wall);
+  color: var(--ink);
+  padding: clamp(1.25rem, 2.4vw, 2.25rem);
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  box-shadow: 0 1.5rem 3rem -1.75rem rgb(0 0 0 / 0.55);
+}
+
+.facing__wall > * + * {
+  margin-top: 0.85em;
+}
+
+.facing__wall .t-h3 {
+  margin-top: 0.35rem;
+}
+
+.facing__tag {
+  color: var(--muted);
+}
+
+.facing__wall--dewey {
+  transform-origin: left center;
+}
+
+.facing__wall--bagley {
+  transform-origin: right center;
+}
+
+.facing__meet {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(1rem, 3vw, 2rem) 0.5rem;
+}
+
+.facing__meet blockquote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.facing__meet figcaption {
+  margin-top: 1rem;
+}
+
+.facing__note {
+  padding-top: 0.85rem;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 25%, transparent);
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+@media (min-width: 48rem) {
+  .facing {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr) minmax(0, 1.12fr);
+    align-items: stretch;
+    gap: clamp(1rem, 2.4vw, 2.5rem);
+  }
+}
+
+@media (max-width: 47.999rem) {
+  .facing__meet {
+    order: 3;
+  }
+  .facing__wall--bagley {
+    order: 2;
+  }
+}
+
+/* ---- The rooms (index) ------------------------------------------------------ */
+
+.rooms__intro {
+  margin-top: 1rem;
+}
+
+.rooms__grid {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 3rem);
+}
+
+.rooms__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.rooms__row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  min-height: 3.75rem;
+  padding: 0.55rem 1rem 0.55rem 0;
+  text-decoration: none;
+  background: var(--room-bg);
+  color: var(--room-ink);
+  position: relative;
+  transition: padding-left 380ms var(--ease-gallery), filter 200ms ease;
+}
+
+.rooms__door {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.rooms__title {
+  font-family: var(--font-read);
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  font-weight: 460;
+}
+
+.rooms__count {
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  color: var(--room-muted);
+  white-space: nowrap;
+}
+
+.rooms__row:focus-visible {
+  outline: 3px solid var(--room-ink);
+  outline-offset: -6px;
+  box-shadow: none;
+}
+
+.rooms__preview {
+  display: none;
+}
+
+@media (min-width: 60rem) {
+  .rooms__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+  /* On the plaster wall the list reads as swatches; the active room steps forward. */
+  .rooms__row {
+    background: color-mix(in oklab, var(--room-bg) 0%, transparent);
+    color: var(--ink);
+    grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+    border-left: 0;
+  }
+  .rooms__row::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3.25rem;
+    background: var(--room-bg);
+    transition: width 520ms var(--ease-gallery);
+    z-index: 0;
+  }
+  .rooms__row > * {
+    position: relative;
+    z-index: 1;
+  }
+  .rooms__door {
+    color: var(--room-ink);
+  }
+  .rooms__count {
+    color: var(--muted);
+  }
+  .rooms__row.is-active::before {
+    width: 100%;
+  }
+  .rooms__row.is-active {
+    color: var(--room-ink);
+  }
+  .rooms__row.is-active .rooms__count {
+    color: var(--room-muted);
+  }
+  .rooms__preview {
+    display: block;
+    background: var(--room-bg);
+    color: var(--room-ink);
+    transition: background-color 600ms var(--ease-gallery), color 600ms var(--ease-gallery);
+    position: relative;
+    overflow: hidden;
+  }
+  .rooms__preview::before {
+    content: "";
+    position: absolute;
+    inset: -20% 15% 45%;
+    background: radial-gradient(ellipse at 50% 0%, rgb(255 246 228 / 0.2), transparent 70%);
+    pointer-events: none;
+  }
+  .rooms__preview-inner {
+    position: relative;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .rooms__preview-room {
+    color: var(--room-muted);
+  }
+  .rooms__preview-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+    line-height: 1.08;
+    margin-top: 0.5rem;
+  }
+  /* Two classes, so the room's own muted ink wins over .t-fr's (contrast on dark rooms). */
+  .rooms__preview .rooms__preview-fr {
+    color: var(--room-muted);
+  }
+  .rooms__preview-label {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in oklab, var(--room-ink) 30%, transparent);
+  }
+  .rooms__preview-label .t-label {
+    color: var(--room-muted);
+  }
+  .rooms__preview-statement {
+    font-family: var(--font-read);
+    font-weight: 560;
+    font-size: 1.0625rem;
+    line-height: 1.4;
+    margin-top: 0.5rem;
+  }
+  .rooms__preview-theory {
+    margin-top: 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+}
+
+/* ---- Reading Room ------------------------------------------------------------ */
+
+.reading__intro {
+  margin-top: 1rem;
+}
+
+.shelf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 26%, transparent);
+}
+
+.shelf__entry {
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 26%, transparent);
+}
+
+.shelf__row {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  padding-block: 1.25rem;
+  align-items: start;
+}
+
+.shelf__code {
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.shelf__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  line-height: 1.15;
+}
+
+.shelf__summary {
+  margin-top: 0.4rem;
+  color: var(--muted);
+  max-width: 62ch;
+  font-size: 0.96em;
+}
+
+.shelf__action {
+  grid-column: 2;
+}
+
+.shelf__chev {
+  transition: transform 300ms var(--ease-gallery);
+}
+
+.is-open .shelf__chev {
+  transform: rotate(180deg);
+}
+
+.shelf__library {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.15rem 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.shelf__library a {
+  display: inline-block;
+  padding-block: 0.3rem;
+  line-height: 1.4;
+}
+
+.shelf__week {
+  font-family: var(--font-label);
+  font-weight: 650;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-right: 0.35rem;
+}
+
+.shelf__body-inner {
+  padding: 0.25rem 0 2rem 4.25rem;
+}
+
+.shelf__permalink {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .shelf__row {
+    grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+    gap: 1.5rem;
+  }
+  .shelf__action {
+    grid-column: 3;
+    justify-self: end;
+    padding-top: 0.2rem;
+  }
+  .shelf__body-inner {
+    padding-left: 6rem;
+  }
+  .shelf__library {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 47.999rem) {
+  .shelf__body-inner {
+    padding-left: 0;
+  }
+}
+
+/* ---- Exit -------------------------------------------------------------------- */
+
+.exit {
+  padding-bottom: clamp(2rem, 5vh, 3rem);
+}
+
+.exit__grid {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.exit__photo {
+  aspect-ratio: 4 / 5;
+  width: min(100%, 22rem);
+}
+
+.exit__lede {
+  margin-bottom: 1rem;
+}
+
+.exit__plan {
+  max-width: 32rem;
+}
+
+.exit__print {
+  margin-top: 1rem;
+}
+
+.exit__refs {
+  grid-column: 1 / -1;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  padding-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.refs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.refs li {
+  padding-left: 1.5em;
+  text-indent: -1.5em;
+}
+
+.refs li + li {
+  margin-top: 0.4rem;
+}
+
+.exit__colophon {
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .exit__grid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    align-items: stretch;
+  }
+  .exit__photo {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    min-height: 22rem;
+    max-height: 36rem;
+  }
+  .exit__refs {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+  .exit__refs .t-label {
+    text-align: right;
+  }
+  .exit__colophon {
+    grid-column: 2;
+    margin-top: 0;
+  }
+}
+
+/* ---- Not found --------------------------------------------------------------- */
+
+.notfound {
+  padding-top: calc(var(--nav-h) + var(--pad-y));
+}
+
+.notfound__grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.notfound__lede {
+  margin-top: 1rem;
+}
+
+@media (min-width: 48rem) {
+  .notfound__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ==== Rooms ===================================================================== */
+
+/* ---- Title wall -------------------------------------------------------------- */
+
+.title-wall {
+  position: relative;
+  padding-top: calc(var(--nav-h) + clamp(2rem, 7vh, 4.5rem));
+  padding-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.title-wall__grid {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+
+.title-wall__room {
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.title-wall__room a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-block: -0.75rem;
+  background-position: 0 calc(100% - 0.7rem);
+  padding-bottom: 0;
+}
+
+.title-wall__of {
+  font-weight: 400;
+  margin-left: 0.35rem;
+}
+
+.title-wall__title {
+  font-size: clamp(2.5rem, 5.6vw, 5.5rem);
+  line-height: 0.98;
+  text-wrap: balance;
+  max-width: 16ch;
+}
+
+.title-wall__title--long {
+  font-size: clamp(2.25rem, 4.6vw, 4.5rem);
+  max-width: 19ch;
+}
+
+/* Very long titles (several French ones) step down again so the title wall stays compact.
+   (Two classes, so it outranks .t-display, which index.css declares after this file.) */
+.title-wall .title-wall__title--xlong {
+  font-size: clamp(2rem, 3.9vw, 3.75rem);
+  max-width: 22ch;
+}
+
+.title-wall__title--resource {
+  max-width: 18ch;
+}
+
+.title-wall__fr {
+  margin-top: 0.85rem;
+}
+
+.title-wall__side > * + * {
+  margin-top: 1rem;
+}
+
+.title-wall__summary {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  max-width: 60ch;
+}
+
+.title-wall__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 24%, transparent);
+}
+
+.title-wall__toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  font-family: var(--font-label);
+  font-weight: 650;
+  font-size: 0.9375rem;
+}
+
+.title-wall__toc a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding-bottom: 0;
+  background-position: 0 calc(100% - 0.65rem);
+}
+
+.title-wall__actions {
+  margin-top: 0;
+}
+
+@media (min-width: 60rem) {
+  .title-wall__grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  }
+  .title-wall__actions {
+    grid-column: 1 / -1;
+  }
+  .title-wall__side {
+    padding-top: 2.4rem;
+  }
+}
+
+/* ---- The room's three walls share one heading size -------------------------------- */
+
+.labels__head .t-h3,
+.lesson__head .t-h3,
+.ticket__head .t-h3 {
+  font-size: clamp(1.875rem, 3.4vw, 3rem);
+  line-height: 1.05;
+}
+
+/* ---- Wall labels -------------------------------------------------------------- */
+
+.labels {
+  padding-bottom: clamp(2rem, 6vh, 4rem);
+}
+
+.labels__head {
+  padding-top: clamp(0.5rem, 2vh, 1rem);
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+}
+
+.labels__head .t-fr {
+  margin: 0;
+}
+
+.labels__list {
+  display: grid;
+  gap: clamp(3rem, 8vh, 5.5rem);
+}
+
+.label {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0 0.75rem;
+  scroll-margin-top: calc(var(--nav-h) + 1rem);
+}
+
+.label__n {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--accent);
+  padding-top: 0.15rem;
+}
+
+.label__statement {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  line-height: 1.16;
+  max-width: 34ch;
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+
+.label__statement--long {
+  font-size: clamp(1.3125rem, 1.9vw, 1.6875rem);
+  max-width: 46ch;
+}
+
+.label__rule {
+  display: block;
+  height: 1px;
+  margin: 1.1rem 0 1.25rem;
+  background: color-mix(in oklab, var(--ink) 35%, transparent);
+  transform-origin: left center;
+}
+
+.label__cols {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.label__part {
+  font-size: 1rem;
+  line-height: 1.66;
+}
+
+.label__part > p + p {
+  margin-top: 0.8em;
+}
+
+.label__part-title {
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+}
+
+.label__part--see p:not(.t-label) {
+  font-style: italic;
+  font-weight: 380;
+}
+
+.label__credit {
+  margin-top: 1.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px dotted color-mix(in oklab, var(--ink) 30%, transparent);
+  max-width: 110ch;
+}
+
+.label__cites {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.label__cites li {
+  padding-left: 1.5em;
+  text-indent: -1.5em;
+  overflow-wrap: anywhere;
+}
+
+.label__cites li + li {
+  margin-top: 0.3rem;
+}
+
+.cite-link {
+  color: inherit;
+}
+
+.label__ht {
+  margin-top: 0.5rem;
+  font-weight: 650;
+}
+
+@media (min-width: 48rem) {
+  .label {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0 1rem;
+  }
+  .label__n {
+    font-size: 2.75rem;
+  }
+  .label__cols {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 2rem;
+  }
+  .label__cols > :nth-child(3) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 60rem) {
+  .label__cols {
+    grid-template-columns: var(--cols);
+  }
+  .label__cols > :nth-child(3) {
+    grid-column: auto;
+  }
+}
+
+/* ---- Mini-lesson wall ---------------------------------------------------------- */
+
+.lesson {
+  padding-block: clamp(2.5rem, 6vh, 4rem);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 24%, transparent);
+  position: relative;
+}
+
+
+
+.lesson__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+
+.lesson__head .t-fr {
+  margin: 0;
+}
+
+.lesson__hint {
+  flex-basis: 100%;
+}
+
+.lesson__subtitle {
+  flex-basis: 100%;
+  font-size: 1.0625rem;
+  color: var(--muted);
+}
+
+.lesson__hint--pin {
+  display: none;
+}
+
+.lesson[data-pin="on"] .lesson__hint--pin {
+  display: inline;
+}
+
+.lesson[data-pin="on"] .lesson__hint--swipe {
+  display: none;
+}
+
+.lesson__viewport {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ink) 40%, transparent) transparent;
+  padding-bottom: 1rem;
+}
+
+.lesson__viewport:focus-visible {
+  outline-offset: -3px;
+}
+
+.lesson[data-pin="on"] .lesson__viewport {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.lesson__track {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  padding: 1.75rem var(--gutter) 0;
+  width: max-content;
+  position: relative;
+}
+
+/* The picture rail the stages hang from. */
+.lesson__track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.5rem;
+  height: 1px;
+  background: color-mix(in oklab, var(--ink) 40%, transparent);
+}
+
+/* Panels are sized to their own text: no fixed height, no empty space inside.
+   balance.ts then sets each panel's width so they hang level (phones keep these widths). */
+.lesson__card {
+  position: relative;
+  scroll-snap-align: start;
+  /* Wall text: it grows with the screen, and the panel widens with it, in ems. */
+  font-size: clamp(1.0625rem, 0.6rem + 0.9vw, 1.375rem);
+  width: min(84vw, clamp(13em, calc(var(--w) * 0.34em + 8.5em), 28em));
+  box-sizing: border-box;
+  padding: 1.25em 1.35em 1.4em;
+  border: 1px solid color-mix(in oklab, var(--ink) 34%, transparent);
+  line-height: 1.62;
+  flex: none;
+}
+
+/* The wire it hangs by. */
+.lesson__card::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -1.25rem;
+  height: 1.25rem;
+  width: 1px;
+  background: color-mix(in oklab, var(--ink) 40%, transparent);
+}
+
+.lesson__card--title {
+  width: min(86vw, clamp(18em, calc(var(--w) * 0.28em + 8.5em), 32em));
+  background: color-mix(in oklab, var(--ink) 7%, var(--wall));
+}
+
+.lesson__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.2vw, 1.875rem);
+  line-height: 1.12;
+}
+
+.lesson__meta {
+  margin-top: 0.85rem;
+  color: var(--muted);
+}
+
+.lesson__facts {
+  margin: 1rem 0 0;
+}
+
+.lesson__facts > div + div {
+  margin-top: 0.75rem;
+}
+
+.lesson__facts dt {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.lesson__facts dd {
+  margin: 0.1rem 0 0;
+}
+
+/* The stage number, like a wall number, above the stage's name. */
+.lesson__step {
+  font-family: var(--font-display);
+  font-size: 1.9em;
+  line-height: 0.9;
+  color: var(--accent);
+  margin-bottom: 0.35em;
+}
+
+.lesson__stage {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6em;
+  line-height: 1.08;
+}
+
+.lesson__card > p + p {
+  margin-top: 0.7em;
+}
+
+.lesson__rail {
+  display: none;
+}
+
+/* Pinned: the wall fills the screen under the nav; the heading sits at the top and the
+   row of panels hangs centred in the space left. balance.ts makes the panels tall
+   enough (by narrowing them) that little bare wall shows above and below. */
+.lesson__hang {
+  position: relative;
+}
+
+.lesson[data-pin="on"] {
+  min-height: calc(100svh - var(--nav-h));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding-block: 1.5rem;
+}
+
+.lesson[data-pin="on"] .lesson__viewport {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+}
+
+/* Pinned: your progress along the wall fills the picture rail. */
+.lesson[data-pin="on"] .lesson__rail {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(0.5rem - 1px);
+  height: 3px;
+  pointer-events: none;
+}
+
+.lesson__rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.wall-refs {
+  margin-top: 1.5rem;
+}
+
+.lesson .wall-refs {
+  margin-top: 1rem;
+}
+
+/* ---- Exit ticket (3-2-1) ------------------------------------------------------- */
+
+.ticket {
+  padding-block: clamp(2.5rem, 6vh, 4rem);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 24%, transparent);
+}
+
+.ticket__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.ticket__head .t-fr {
+  margin: 0;
+}
+
+.ticket__rows {
+  display: grid;
+  gap: clamp(1.75rem, 4vh, 2.5rem);
+}
+
+.ticket__row {
+  display: grid;
+  gap: 0.75rem 2rem;
+}
+
+.ticket__n {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.ticket__num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  color: var(--accent);
+}
+
+.ticket__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem 2rem;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.ticket__items li {
+  border-top: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
+  padding-top: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .ticket__row {
+    grid-template-columns: 10rem minmax(0, 1fr);
+  }
+  .ticket__n {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .ticket__items {
+    grid-template-columns: var(--cols);
+  }
+  /* The 3-2-1 narrows as it goes: three across, then two, then one. */
+  .ticket__row:nth-child(2) .ticket__items {
+    max-width: 82%;
+  }
+  .ticket__row:nth-child(3) .ticket__items {
+    max-width: 62ch;
+  }
+}
+
+/* ---- Doors (previous / next) ------------------------------------------------- */
+
+.doors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: clamp(2rem, 5vh, 3rem);
+}
+
+.door {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter);
+  min-height: 9rem;
+  box-sizing: border-box;
+  background: var(--room-bg);
+  color: var(--room-ink);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.door--next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.door__rel {
+  color: var(--room-muted);
+}
+
+.door__kicker {
+  font-family: var(--font-label);
+  font-size: 0.9375rem;
+  margin-top: auto;
+}
+
+.door__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.05;
+}
+
+.door:focus-visible {
+  outline: 3px solid var(--room-ink);
+  outline-offset: -8px;
+  box-shadow: none;
+}
+
+@media (hover: hover) {
+  html[data-motion="on"] .door__name {
+    transition: transform 500ms var(--ease-gallery);
+  }
+  html[data-motion="on"] .door--prev:hover .door__name {
+    transform: translateX(-0.5rem);
+  }
+  html[data-motion="on"] .door--next:hover .door__name {
+    transform: translateX(0.5rem);
+  }
+}
+
+/* ---- Resource pages -------------------------------------------------------- */
+
+.resource__body {
+  padding-bottom: clamp(2rem, 6vh, 4rem);
+}
+
+.resource__prose {
+  padding-top: clamp(1.5rem, 4vh, 2.5rem);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 24%, transparent);
+  margin-inline: auto;
+}
+
+.library {
+  padding-top: clamp(1.5rem, 4vh, 2.5rem);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 24%, transparent);
+}
+
+.library__week {
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.library__part-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-read);
+  font-weight: 620;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+}
+
+.resource__back {
+  padding-bottom: var(--pad-y);
+}
+
+/* The entrance already ends with breathing room: Who is Kristen follows closely. */
+.entrance + .who {
+  padding-top: clamp(2rem, 5vh, 3.5rem);
+}

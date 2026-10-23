@@ -1,0 +1,30 @@
+/*
+ * Browser back/forward: a short colour sweep (router.tsx starts a view transition
+ * typed "history" only for those). The new page, in its own wall colour, wipes in
+ * from the left over the old one, with a thin line of gallery light on its edge.
+ * In-site links use the full sweep (src/lib/sweep.ts) and never get this.
+ */
+html:active-view-transition-type(history)::view-transition-old(root) {
+  animation: none;
+}
+
+html:active-view-transition-type(history)::view-transition-new(root) {
+  animation: history-wipe 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes history-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+    filter: brightness(1.08);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    filter: none;
+  }
+}
+
+html[data-motion="off"]::view-transition-group(*),
+html[data-motion="off"]::view-transition-old(*),
+html[data-motion="off"]::view-transition-new(*) {
+  animation: none;
+}

@@ -1,0 +1,13 @@
+node_modules
+dist
+*.log
+.DS_Store
+
+# Local-only working files (kept on disk, never pushed)
+scripts/
+/*.md
+/brief[s]/
+/log[s]/
+/reference/
+/evidence/
+/.claude/

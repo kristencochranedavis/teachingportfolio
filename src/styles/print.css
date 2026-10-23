@@ -1,0 +1,216 @@
+/*
+ * Print: a room (or a Reading Room page) prints as a clean document.
+ * "Print this room / Save as PDF" on each room page calls window.print().
+ * Walls, motion, navigation and the pinned wall are dropped; the mini-lesson
+ * stages stack in order; citations keep their URLs.
+ */
+@media print {
+  @page {
+    margin: 16mm 16mm 18mm;
+  }
+
+  :root,
+  html,
+  body,
+  .room,
+  .resource {
+    --wall: #ffffff !important;
+    --ink: #111111 !important;
+    --muted: #444444 !important;
+    --accent: #111111 !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  body {
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+
+  .site-nav,
+  .skip-link,
+  .lang-toggle,
+  .sweep,
+  .doors,
+  .print-button,
+  .title-wall__toc,
+  .lesson__hint,
+  .lesson__rail,
+  .resource__back,
+  .plan-dialog {
+    display: none !important;
+  }
+
+  .lit::before {
+    display: none !important;
+  }
+
+  .lit-rise,
+  .label__rule,
+  .label__n,
+  .split-line {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .title-wall {
+    padding: 0 0 8mm !important;
+  }
+
+  .title-wall__grid {
+    display: block !important;
+  }
+
+  .title-wall__title {
+    font-size: 26pt !important;
+    max-width: none !important;
+  }
+
+  .title-wall__side {
+    margin-top: 5mm;
+  }
+
+  .title-wall__actions {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  .shell {
+    max-width: none !important;
+    padding-inline: 0 !important;
+  }
+
+  /* Labels flow from page to page; only a label's heading and each column stay whole. */
+  .labels__list {
+    display: block !important;
+  }
+
+  .label {
+    display: block !important;
+    margin-bottom: 7mm;
+  }
+
+  .label__n {
+    float: left;
+    width: 9mm;
+    font-size: 16pt !important;
+  }
+
+  .label__body {
+    margin-left: 9mm;
+  }
+
+  /* A label's heading stays with its text: the statement, the rule and the start of
+     the columns move to the next page together. */
+  .label__rule,
+  .lit::before {
+    display: none !important;
+  }
+
+  .label__statement,
+  .label__part-title,
+  .library__week,
+  .labels__head,
+  .lesson__head,
+  .ticket__head,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .label__cols {
+    break-before: avoid;
+    page-break-before: avoid;
+    margin-top: 3mm;
+  }
+
+  .label__statement,
+  .label__part,
+  .label__credit li,
+  .ticket__row,
+  .lesson__card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .fallback-note {
+    border: 0 !important;
+  }
+
+  .label__statement {
+    font-size: 14pt !important;
+    max-width: none !important;
+  }
+
+  .label__cols {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 5mm !important;
+  }
+
+  .label__part {
+    font-size: 9.5pt;
+  }
+
+  .label__credit {
+    font-size: 8pt;
+  }
+
+  /* The pinned wall becomes a plain list of stages. */
+  .lesson {
+    break-before: page;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .lesson[data-pin] {
+    transform: none !important;
+  }
+
+  .pin-spacer {
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .lesson__viewport {
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .lesson__track {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm !important;
+    width: auto !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  .lesson__track::before,
+  .lesson__card::before {
+    display: none !important;
+  }
+
+  .lesson__card {
+    width: auto !important;
+    border: 0.5pt solid #999 !important;
+    background: none !important;
+    break-inside: avoid;
+    font-size: 9.5pt;
+  }
+
+  .ticket {
+    break-inside: avoid-page;
+    border: 0 !important;
+  }
+
+  a {
+    color: inherit !important;
+  }
+
+  .shelf__body[hidden] {
+    display: none !important;
+  }
+}

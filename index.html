@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-motion="on">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kristen Davis, teaching portfolio</title>
+    <meta
+      name="description"
+      content="Kristen Davis's teaching portfolio for GRED 562: Ontario Education, hung as a small exhibition: eight Elements Charts as eight rooms, and a reading room of resources."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Kristen Davis, teaching portfolio" />
+    <meta
+      property="og:description"
+      content="Kristen Davis's teaching portfolio for GRED 562: Ontario Education: eight Elements Charts as eight rooms, and a reading room of resources. In English and French."
+    />
+    <meta name="theme-color" content="#afc6c0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      /* Before first paint: the motion preference (src/lib/motion.ts reads it), the
+         language (src/i18n/lang.ts: ?lang=, saved choice, browser, English), and the
+         entrance intro once per session on "/". Every storage access is wrapped. */
+      (function () {
+        var d = document.documentElement, m = "on";
+        try {
+          var s = localStorage.getItem("kd-motion");
+          if (s === "on" || s === "off") m = s;
+          else if (matchMedia("(prefers-reduced-motion: reduce)").matches) m = "off";
+        } catch (e) {
+          try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) m = "off"; } catch (e2) {}
+        }
+        d.setAttribute("data-motion", m);
+        var l = null;
+        try { var q = new URLSearchParams(location.search).get("lang"); if (q === "fr" || q === "en") l = q; } catch (e) {}
+        if (!l) { try { var sl = localStorage.getItem("kd-lang"); if (sl === "fr" || sl === "en") l = sl; } catch (e) {} }
+        if (!l) { try { l = (navigator.language || "").toLowerCase().indexOf("fr") === 0 ? "fr" : "en"; } catch (e) { l = "en"; } }
+        d.setAttribute("lang", l === "fr" ? "fr-CA" : "en");
+        if (l === "fr") document.title = "Kristen Davis, portfolio d\u2019enseignement";
+        var seen = false;
+        try { seen = sessionStorage.getItem("kd-intro") === "1"; sessionStorage.setItem("kd-intro", "1"); } catch (e) {}
+        if (m === "on" && !seen && location.pathname === "/" && !location.hash) d.classList.add("intro");
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
